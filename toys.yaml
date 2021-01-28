@@ -1,0 +1,29 @@
+toys:
+  - id: 1
+    serial_num: 111
+    name: boat
+    status: broken
+    status_updated: 2020-03-19
+    games:
+      - id: 1
+        note: need repair
+      - id: 3
+        note: boat is broken
+  - id: 2
+    serial_num: 222
+    name: Teddy Bear
+    status: ok
+    status_updated: 2020-03-30
+    games:
+      - id: 2
+        note: bear feels well
+  - id: 3
+    serial_num: 333
+    name: octopus
+    status: ok
+    status_updated: 2020-03-19
+    games:
+      - id: 2
+        note: felt rather good though had no water to swim
+      - id: 3
+        note: two tentacles are lost
