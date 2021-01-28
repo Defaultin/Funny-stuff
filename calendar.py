@@ -97,4 +97,4 @@ if __name__ == '__main__':
 
 	print(calendar1)
 	print(calendar2)
-	print(f'Posseble meeting times: {meetings}')
+	print(f'Possible meeting times: {meetings}')
