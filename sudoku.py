@@ -63,10 +63,10 @@ class Sudoku:
         nums = shuffle(range(1, 10))
         rows = [3 * i + r for i in shuffle(rng) for r in shuffle(rng)] 
         cols = [3 * i + c for i in shuffle(rng) for c in shuffle(rng)]
-        self.grid = np.array([[nums[valid(r,c)] for c in cols] for r in rows], dtype=np.int8)
+        self.grid = np.array([[nums[valid(r, c)] for c in cols] for r in rows], dtype=np.int8)
 
         for i in np.random.choice(range(81), size=13 * self.difficulty, replace=False):
-            self.grid[i//9, i%9] = 0
+            self.grid[divmod(i, 9)] = 0
 
         return self.grid
 
