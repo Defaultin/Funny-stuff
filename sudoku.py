@@ -12,7 +12,12 @@ class Sudoku:
         generates random sudoku grid.
     level : int, optional
         The complexity level of the generated 
-        sudoku grid (from 1 to 5, 3 by default).
+        sudoku grid (3 by default).
+            1 - novice
+            2 - apprentice
+            3 - adept
+            4 - expert
+            5 - master
 
     '''
     def __init__(self, grid=None, *, level=3):
