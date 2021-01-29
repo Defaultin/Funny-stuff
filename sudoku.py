@@ -125,7 +125,7 @@ class Sudoku:
 
 
 if __name__ == '__main__':
-    sudoku = Sudoku(difficulty=4)
+    sudoku = Sudoku(level=4)
     sudoku.print_grid()
     sudoku.solve()
     sudoku.print_grid()
