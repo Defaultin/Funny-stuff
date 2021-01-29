@@ -16,16 +16,14 @@ class Sudoku:
 
     '''
     def __init__(self, grid=None, *, difficulty=3):
-        if 0 < difficulty < 6:
+        if 0 < difficulty < 6 and isinstance(difficulty, int):
             self.difficulty = difficulty
         else:
             raise ValueError('Difficulty index must be between 1 and 5!')
         if grid is not None:
-            self.grid = np.array(grid, dtype=np.int8)
+            self.grid = self.set_grid(grid)
         else:
             self.grid = self.get_grid()
-        if self.grid.shape != (9, 9):
-            raise ValueError('Expected 9x9 sudoku grid!')
 
         self._template = [
             '╔═══╤═══╤═══╦═══╤═══╤═══╦═══╤═══╤═══╗',
@@ -45,7 +43,10 @@ class Sudoku:
         grid : array_like
             Unsolved sudoku grid (shape 9x9).
         '''
-        self.grid = np.array(grid, dtype=np.int8)   
+        if grid.shape != (9, 9):
+            raise ValueError('Expected 9x9 sudoku grid!')
+        else:
+            self.grid = np.array(grid, dtype=np.int8)   
 
 
     def get_grid(self):
@@ -73,11 +74,12 @@ class Sudoku:
 
     def print_grid(self):
         '''Renders sudoku grid.'''
-        nums = [[''] + [str(i) if i else ' ' for i in row] for row in self.grid]
         print(self._template[0])
-        for i in range(1, 10):
-            print(''.join(n + s for n, s in zip(nums[i-1], self._template[1].split('.'))))
-            print(self._template[2:][(i % 9 == 0) + (i % 3 == 0)])
+        for i in range(9):
+            num_str = zip([''] + self.grid[i].tolist(), self._template[1].split('.'))
+            idx = ((i + 1) % 9 == 0) + ((i + 1) % 3 == 0)
+            print(''.join(str(n) + s if n != 0 else ' ' + s for n, s in num_str))
+            print(self._template[idx+2])
 
 
     def solve(self, n=0):
