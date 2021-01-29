@@ -10,16 +10,16 @@ class Sudoku:
     grid : array_like, optional
         Unsolved sudoku 9x9 grid. If None (default), 
         generates random sudoku grid.
-    difficulty : int, optional
-        The complexity parameter of the generated 
+    level : int, optional
+        The complexity level of the generated 
         sudoku grid (from 1 to 5, 3 by default).
 
     '''
-    def __init__(self, grid=None, *, difficulty=3):
-        if 0 < difficulty < 6 and isinstance(difficulty, int):
-            self.difficulty = difficulty
+    def __init__(self, grid=None, *, level=3):
+        if 0 < level < 6 and isinstance(level, int):
+            self.level = 12 * level
         else:
-            raise ValueError('Difficulty index must be between 1 and 5!')
+            raise ValueError('Difficulty level must be between 1 and 5!')
         if grid is not None:
             self.grid = self.set_grid(grid)
         else:
@@ -66,7 +66,7 @@ class Sudoku:
         cols = [3 * i + c for i in shuffle(rng) for c in shuffle(rng)]
         self.grid = np.array([[nums[valid(r, c)] for c in cols] for r in rows], dtype=np.int8)
 
-        for i in np.random.choice(range(81), size=13 * self.difficulty, replace=False):
+        for i in np.random.choice(range(81), size=self.level, replace=False):
             self.grid[divmod(i, 9)] = 0
 
         return self.grid
