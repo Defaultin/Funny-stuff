@@ -1,4 +1,4 @@
-import cv2
+import numpy as np
 import qrcode
 
 
@@ -24,12 +24,76 @@ class QRCode:
 
         qr.add_data(data)
         qr.make(fit=True)
-        image = qr.make_image()
-        image.save(file_name)
+        matrix = np.array(qr.get_matrix(), dtype=int)
+
+        img = qr.make_image()
+        img.save(file_name)
+
+        return matrix[self.border:-self.border, self.border:-self.border]
 
 
-    def decode(self, file_name="qr.png"):
-        image = cv2.imread(file_name)
-        detector = cv2.QRCodeDetector()
-        data, vertices, matrix = detector.detectAndDecode(image)
-        return data
+    def decode(self, qr):
+        # init
+        n, m = qr.shape
+        matrix = qr.copy()
+        box = np.where(matrix[0] == False)[0][0]
+        mask = qrcode.util.mask_func(self.mask)
+
+        def skip(i, j):
+            # error info area
+            if 0 <= j <= box + 1:
+                 return True
+            # top right scan box
+            elif 0 <= i <= box + 1 and m - box - 1 <= j <= m:
+                return True
+            # bottom right scan box
+            elif n - 9 <= i <= n - 5 and m - 9 <= j <= m - 5:
+                return True
+            # top scan line
+            elif i == box - 1:
+                return True
+            # remaining bits
+            else:
+                 return False
+
+        # apply mask
+        for i in range(n):
+            for j in range(m):
+                if mask(i, j):
+                    matrix[i, j] = not matrix[i, j]
+
+        # retrive bits
+        data = np.array([], dtype=int)
+        for j in range(0, m, 2)[::-1]:
+            for i in range(n)[::-1] if (j - 1) // 2 % 2 else range(n):
+                if not skip(i, j):
+                    data = np.append(data, matrix[i, j])
+                if not skip(i, j - 1):
+                    data = np.append(data, matrix[i, j - 1])
+
+        # decode bits
+        data = data[12:] # exclude first 12 bits
+        blocks = np.vstack(np.split(data, range(8, data.size, 8))[:-1])
+        text = blocks.dot(1 << np.arange(blocks.shape[-1] - 1, -1, -1))
+        return "".join([chr(t) for t in text])
+
+
+def main():
+    # generate QR code for message
+    filename = "qr.png"
+    message = "Hi there! What's up?"
+    qr = QRCode(mask=2)
+    code = qr.generate(message, filename)
+
+    # mess up the QR code
+    for i in range(1, 21):
+        for j in range(10):
+            code[i, j] = 0
+
+    # decode bad QR code
+    text = qr.decode(code)
+    print(text, message in text)
+
+
+if __name__ == '__main__':
+    main()
