@@ -68,10 +68,14 @@ class QRCode:
                     bits = np.append(bits, bit)
 
         # decode bits
-        data = bits[12:] # exclude first 12 bits
-        blocks = np.vstack(np.split(data, range(8, data.size, 8))[:-1])
-        text = blocks.dot(1 << np.arange(blocks.shape[-1] - 1, -1, -1))
-        return "".join([chr(t) for t in text])
+        data = np.packbits(bits[12:])
+        for i in range(2, data.size, 2):
+            try:
+                text = bytearray(data[:i]).decode()
+            except UnicodeDecodeError:
+                continue
+
+        return text
 
 
 def main():
