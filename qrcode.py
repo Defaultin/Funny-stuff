@@ -68,6 +68,7 @@ class QRCode:
                     bits = np.append(bits, bit)
 
         # decode bits
+        text = ""
         data = np.packbits(bits[12:])
         for i in range(2, data.size, 2):
             try:
