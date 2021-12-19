@@ -58,8 +58,8 @@ class QRCode:
 
         # apply mask and retrive bits
         bits = np.array([], dtype=int)
-        for j in range(0, m, 2)[::-1]:
-            for i in range(n)[::-1] if (j - 1) // 2 % 2 else range(n):
+        for j in reversed(range(0, m, 2)):
+            for i in reversed(range(n)) if (j - 1) // 2 % 2 else range(n):
                 if not skip(i, j):
                     bit = not matrix[i, j] if mask(i, j) else matrix[i, j]
                     bits = np.append(bits, bit)
@@ -80,6 +80,7 @@ def main():
     message = "Hi there! What's up?"
     qr = QRCode()
     code = qr.generate(message, filename)
+    print("QR Matrix type:", type(code))
 
     # mess up the QR code
     for i in range(1, 21):
