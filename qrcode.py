@@ -77,7 +77,7 @@ class QRCode:
             try:
                 text = bytearray(data[:i]).decode()
             except UnicodeDecodeError:
-                break
+                continue
 
         return text
 
