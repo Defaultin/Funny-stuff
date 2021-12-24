@@ -6,6 +6,9 @@ class QRCode:
     def __init__(self, version=None,
                  error=qrcode.constants.ERROR_CORRECT_L,
                  size=10, border=4, mask=0):
+        if version > 5:
+            raise ValueError("This version is not yet supported.")
+
         self.version = version
         self.error = error
         self.size = size
@@ -74,7 +77,7 @@ class QRCode:
             try:
                 text = bytearray(data[:i]).decode()
             except UnicodeDecodeError:
-                continue
+                break
 
         return text
 
