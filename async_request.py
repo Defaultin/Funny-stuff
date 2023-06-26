@@ -32,7 +32,7 @@ async def async_request(dataframe, extractor=None):
         }
 
         logging.info({"id": index} | row.to_dict())
-        async with caller[row.method](row.url, **options) as resp:
+        async with caller[row.method.upper()](row.url, **options) as resp:
             length = 0 if pd.isnull(resp.content_length) else resp.content_length
             content = await resp.read()
             response = extractor(content) if extractor is not None else content
