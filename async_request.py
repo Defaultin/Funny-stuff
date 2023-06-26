@@ -1,8 +1,6 @@
 import aiohttp
 import asyncio
-import json
 import logging
-import numpy as np
 import pandas as pd
 
 
@@ -16,7 +14,7 @@ logging.basicConfig(
     ]
 )
 
-async def async_request(dataframe, extractor=None):
+async def async_requests(dataframe, extractor=None):
     async def send_request(session, index, row):
         if "url" not in row or "method" not in row:
             raise ValueError("Expected url and method columns")
@@ -39,7 +37,7 @@ async def async_request(dataframe, extractor=None):
             dataframe.at[index, "status"] = resp.status
             dataframe.at[index, "length"] = length
             dataframe.at[index, "target"] = resp.url
-            dataframe.at[index, "headers"] = json.dumps(dict(resp.headers))
+            dataframe.at[index, "headers"] = dict(resp.headers)
             dataframe.at[index, "response"] = response
 
     timeout = aiohttp.ClientTimeout(total=None)
@@ -54,11 +52,19 @@ async def async_request(dataframe, extractor=None):
 
 def main():
     size = 100
-    df = pd.DataFrame(np.random.randint(1, 10e7-1, size=size).astype(str), columns=["url"])
-    df["url"] = "https://stackoverflow.com/questions/" + df.url
+    df = pd.read_csv("data.csv", keep_default_na=False).sample(size).astype({
+        "SITE_NAME": "string",
+        "LOC_CODE": "string",
+        "SITE_LOCATIONS": "string"
+    })
+    params = df.to_dict("records")
+    df["url"] = "https://id.execute-api.region.amazonaws.com/stage/commands"
     df["method"] = "GET"
-    result = asyncio.run(async_request(df))
-    print(result.info())
+    df["params"] = params
+    df["headers"] = [{"Content-Type": "application/json"}] * len(df)
+
+    result = asyncio.run(async_requests(df))
+    print(result[["url", "status", "response"]])
 
 
 if __name__ == "__main__":
