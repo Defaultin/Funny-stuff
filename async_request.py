@@ -67,8 +67,9 @@ def main():
     df["params"] = params
     df["headers"] = [{"Content-Type": "application/json"}] * len(df)
 
-    result = asyncio.run(async_requests(df, extractor=json.loads))
-    print(result[["url", "status", "response"]])
+    results = asyncio.run(async_requests(df, extractor=json.loads))
+    results.to_csv("results.csv", index=False, encoding="utf-8")
+    print(results[["url", "status", "response"]])
 
 
 if __name__ == "__main__":
