@@ -20,8 +20,8 @@ async def async_requests(dataframe, extractor=None):
         if "url" not in row or "method" not in row:
             raise ValueError("Expected url and method columns")
 
-        reqeust_params = {"params", "headers", "timeout", "data", "json"}
-        options = {key: row[key] for key in reqeust_params if key in row}
+        request_params = {"params", "headers", "timeout", "data", "json"}
+        options = {key: row[key] for key in request_params if key in row}
         caller = {
             "GET": session.get,
             "POST": session.post,
