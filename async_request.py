@@ -33,11 +33,12 @@ async def async_requests(dataframe, extractor=None):
         logging.info({"id": index} | row.to_dict())
         async with caller[row.method.upper()](row.url, **options) as resp:
             length = 0 if pd.isnull(resp.content_length) else resp.content_length
+            response = await resp.read() if extractor is None else extractor(await resp.read())
             dataframe.at[index, "status"] = resp.status
             dataframe.at[index, "length"] = length
             dataframe.at[index, "target"] = resp.url
             dataframe.at[index, "headers"] = dict(resp.headers)
-            dataframe.at[index, "response"] = await resp.read()
+            dataframe.at[index, "response"] = response
 
     timeout = aiohttp.ClientTimeout(total=None)
     async with aiohttp.ClientSession(timeout=timeout) as session:
@@ -46,9 +47,6 @@ async def async_requests(dataframe, extractor=None):
             for index, row  in dataframe.iterrows()
         )
         await asyncio.gather(*tasks)
-
-    if extractor is not None:
-        dataframe.response = dataframe.response.apply(extractor)
 
     return dataframe.astype({"status": "Int16", "length": "Int64"})
 
