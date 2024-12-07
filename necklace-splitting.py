@@ -101,7 +101,7 @@ def is_fair_division(necklaces: list[Necklace], quantity: int) -> bool:
     return all(counts == jewel_counts[0] for counts in jewel_counts)
 
 
-def minimum_fair_cuts(necklace: Necklace, quantity) -> list[Necklace]:
+def minimum_fair_cuts(necklace: Necklace, quantity: int) -> list[Necklace]:
     minimum_cut_id, minimum_cuts = 0, len(necklace)
     all_necklace_cuts = necklace.get_all_cuts()
 
