@@ -32,22 +32,98 @@ each will end up with 4 sapphires, 5 emeralds, 2 diamonds, and 3 rubies:
 Using 0-indexing, these cuts occur at the indices [1,2,9,22].
 """
 
+from collections import Counter
+from enum import Enum
+from itertools import combinations
+from random import sample, shuffle
 
-def split_necklace(necklace: list[str]) -> list[list[str]]:
-    pass
+
+class Jewel(Enum):
+    DIAMOND = 1
+    RUBY = 2
+    SAPPHIRE = 3
+    EMERALD = 4
+    TOPAZ = 5
+    AMETHYST = 6
+    AQUAMARINE = 7
+    GARNET = 8
+    PERIDOT = 9
+    OPAL = 10
+
+
+class Necklace:
+    def __init__(self, jewels: list[Jewel]) -> None:
+        if not jewels:
+            raise ValueError("Empty necklace")
+
+        self._cuts = len(jewels) - 1
+        self._jewels = jewels
+
+    @property
+    def jewels(self) -> list[Jewel]:
+        return self._jewels
+
+    def __repr__(self) -> str:
+        return "~".join(jewel.name for jewel in self._jewels)
+
+    def __len__(self) -> int:
+        return len(self._jewels)
+
+    def cut(self, indexes: list[int]) -> list["Necklace"]:
+        if not all(0 <= index < self._cuts for index in indexes):
+            raise ValueError(f"Indexes out of range: [0, {self._cuts - 1}]")
+
+        necklaces, start = [], 0
+        for index in sorted(indexes):
+            necklaces.append(Necklace(self._jewels[start:index + 1]))
+            start = index + 1
+
+        if start <= self._cuts:
+            necklaces.append(Necklace(self._jewels[start:]))
+
+        return necklaces
+
+    def get_all_cuts(self) -> list["Necklace"]:
+        return [
+            self.cut(list(cuts))
+            for length in range(1, self._cuts)
+            for cuts in combinations(range(self._cuts), length)
+        ]
+
+
+def is_fair_division(necklaces: list[Necklace], quantity: int) -> bool:
+    divisions = [necklaces[i::quantity] for i in range(quantity)]
+    jewel_counts = [
+        sum((Counter(necklace.jewels) for necklace in necklaces), Counter())
+        for necklaces in divisions
+    ]
+
+    return all(counts == jewel_counts[0] for counts in jewel_counts)
+
+
+def minimum_fair_cuts(necklace: Necklace, quantity: int = 2) -> list[Necklace]:
+    minimum_cut_id, minimum_cuts = 0, len(necklace)
+    all_necklace_cuts = necklace.get_all_cuts()
+
+    for cut_id, cuts in enumerate(all_necklace_cuts):
+        if is_fair_division(cuts, quantity) and len(cuts) < minimum_cuts:
+            minimum_cut_id, minimum_cuts = cut_id, len(cuts)
+
+    if minimum_cuts == len(necklace):
+        raise ValueError("No fair division found")
+
+    return all_necklace_cuts[minimum_cut_id]
+
+
+def split_necklace() -> None:
+    thieves = 2
+    gems_per_thieve = 6
+    jewels = thieves * sample(gems_per_thieve * list(Jewel), gems_per_thieve)
+    shuffle(jewels)
+    necklace = Necklace(jewels)
+    print("Initial condition:", necklace)
+    print("Solution:", minimum_fair_cuts(necklace, thieves))
 
 
 if __name__ == "__main__":
-    t1 = ["S", "E", "S", "E", "S", "D", "S", "D", "D", "E", "E", "D"]
-    r1 = [["S", "E", "S"], ["E", "S", "D", "S"], ["D", "D", "E"], ["E", "D"]]
-    t2 = ["S", "S", "S", "S", "E", "E", "D", "D", "D", "D", "D", "D"]
-    r2 = [["S", "S"], ["S", "S", "E"], ["E", "D", "D", "D"], ["D", "D", "D"]]
-    t3 = ["S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S", "S"]
-    r3 = [["S", "S", "S", "S", "S", "S"], ["S", "S", "S", "S", "S", "S"]]
-    t4 = ["S", "S", "S", "S", "E", "D", "R", "E", "D", "R", "E", "E"]
-    r4 = [["S", "S"], ["S", "S", "E", "D", "R", "E"], ["D", "R", "E", "E"]]
-
-    assert split_necklace(t1) == r1
-    assert split_necklace(t2) == r2
-    assert split_necklace(t3) == r3
-    assert split_necklace(t4) == r4
+    split_necklace()
