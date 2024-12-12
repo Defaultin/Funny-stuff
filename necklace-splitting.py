@@ -36,6 +36,7 @@ from collections import Counter
 from enum import Enum
 from itertools import combinations
 from random import sample, shuffle
+from typing import Generator
 
 
 class Jewel(Enum):
@@ -83,12 +84,10 @@ class Necklace:
 
         return necklaces
 
-    def get_all_cuts(self) -> list["Necklace"]:
-        return [
-            self.cut(list(cuts))
-            for length in range(1, self._cuts)
-            for cuts in combinations(range(self._cuts), length)
-        ]
+    def get_all_cuts(self) -> Generator[list["Necklace"], None, None]:
+        for length in range(1, self._cuts):
+            for cuts in combinations(range(self._cuts), length):
+                yield self.cut(list(cuts))
 
 
 def is_fair_division(necklaces: list[Necklace], quantity: int) -> bool:
@@ -102,17 +101,16 @@ def is_fair_division(necklaces: list[Necklace], quantity: int) -> bool:
 
 
 def minimum_fair_cuts(necklace: Necklace, quantity: int) -> list[Necklace]:
-    minimum_cut_id, minimum_cuts = 0, len(necklace)
-    all_necklace_cuts = necklace.get_all_cuts()
+    solution, minimum = None, len(necklace)
 
-    for cut_id, cuts in enumerate(all_necklace_cuts):
-        if is_fair_division(cuts, quantity) and len(cuts) < minimum_cuts:
-            minimum_cut_id, minimum_cuts = cut_id, len(cuts)
+    for cuts in necklace.get_all_cuts():
+        if is_fair_division(cuts, quantity) and len(cuts) < minimum:
+            solution, minimum = cuts, len(cuts)
 
-    if minimum_cuts == len(necklace):
+    if solution is None:
         raise ValueError("No fair division found")
 
-    return all_necklace_cuts[minimum_cut_id]
+    return solution
 
 
 def split_necklace() -> None:
@@ -121,8 +119,10 @@ def split_necklace() -> None:
     jewels = thieves * sample(gems_per_thieve * list(Jewel), gems_per_thieve)
     shuffle(jewels)
     necklace = Necklace(jewels)
+    result = minimum_fair_cuts(necklace, thieves)
     print("Initial condition:", necklace)
-    print("Solution:", minimum_fair_cuts(necklace, thieves))
+    print("Solution:", result)
+    print("Minimum number of cuts:", len(result))
 
 
 if __name__ == "__main__":
