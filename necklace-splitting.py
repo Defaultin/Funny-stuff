@@ -5,19 +5,19 @@ and the thieves wish to split each jewel type evenly amongst the two of them.
 The catch is that they must do so by splitting the necklace into some number
 of contiguous segments and distribute the segments between the two of them.
 
-Here is an example with four jewel types denoted S, E, D, and R
+Here is an example with four jewel types denoted 🔵, 🟢, 💎, and 🔴
 (for sapphire, emerald, diamond, and ruby, respectively).
 Let's say the necklace is as follows:
 
 ```
-[S,S,S,E,S,D,E,R,S,R,E,S,S,S,D,R,E,E,R,E,D,E,R,R,D,E,E,E]
+~🔵~🔵~🔵~🟢~🔵~💎~🟢~🔴~🔵~🔴~🟢~🔵~🔵~🔵~💎~🔴~🟢~🟢~🔴~🟢~💎~🟢~🔴~🔴~💎~🟢~🟢~🟢~
 ```
 
 There are 8 sapphires, 10 emeralds, 4 diamonds, and 6 rubies.
 We can split the necklace as follows:
 
 ```
-[[S],[S],[S,E,S,D,E,R,S],[R,E,S,S,S,D,R,E,E,R,E,D,E],[R,R,D,E,E,E]]
+[~🔵~, ~🔵~, ~🔵~🟢~🔵~💎~🟢~🔴~🔵~, ~🔴~🟢~🔵~🔵~🔵~💎~🔴~🟢~🟢~🔴~🟢~💎~🟢~, ~🔴~🔴~💎~🟢~🟢~🟢~]
 ```
 
 Then if we give the first, third, and fifth segments to one thief
@@ -25,8 +25,8 @@ and the second and fourth segments to the other thief,
 each will end up with 4 sapphires, 5 emeralds, 2 diamonds, and 3 rubies:
 
 ```
-[S],    [S,E,S,D,E,R,S],                            [R,R,D,E,E,E]
-    [S],                [R,E,S,S,S,D,R,E,E,R,E,D,E],
+~🔵~    ~🔵~🟢~🔵~💎~🟢~🔴~🔵]~                                     ~🔴~🔴~💎~🟢~🟢~🟢~
+    ~🔵~                     ~🔴~🟢~🔵~🔵~🔵~💎~🔴~🟢~🟢~🔴~🟢~💎~🟢]~
 ```
 
 Using 0-indexing, these cuts occur at the indices [1,2,9,22].
@@ -40,16 +40,16 @@ from typing import Generator
 
 
 class Jewel(Enum):
-    DIAMOND = 1
-    RUBY = 2
-    SAPPHIRE = 3
-    EMERALD = 4
-    TOPAZ = 5
-    AMETHYST = 6
-    AQUAMARINE = 7
-    GARNET = 8
-    PERIDOT = 9
-    OPAL = 10
+    DIAMOND = "💎"
+    RUBY = "🔴"
+    ONYX = "⚫"
+    TOPAZ = "🟡"
+    PEARL = "⚪"
+    QUARTZ = "🟤"
+    EMERALD = "🟢"
+    CITRINE = "🟠"
+    SAPPHIRE = "🔵"
+    AMETHYST = "🟣"
 
 
 class Necklace:
@@ -65,7 +65,7 @@ class Necklace:
         return self._jewels
 
     def __repr__(self) -> str:
-        return "~".join(jewel.name for jewel in self._jewels)
+        return "~" + "~".join(jewel.value for jewel in self._jewels) + "~"
 
     def __len__(self) -> int:
         return len(self._jewels)
