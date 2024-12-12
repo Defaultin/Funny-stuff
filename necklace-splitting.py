@@ -122,7 +122,7 @@ def split_necklace() -> None:
     result = minimum_fair_cuts(necklace, thieves)
     print("Initial condition:", necklace)
     print("Solution:", result)
-    print("Minimum number of cuts:", len(result))
+    print("Minimum number of cuts:", len(result) - 1)
 
 
 if __name__ == "__main__":
