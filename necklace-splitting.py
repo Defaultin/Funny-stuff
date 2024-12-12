@@ -3,33 +3,42 @@ Two thieves have stolen a valuable necklace consisting of several
 different types of jewels. There are an even number of each type of jewel
 and the thieves wish to split each jewel type evenly amongst the two of them.
 The catch is that they must do so by splitting the necklace into some number
-of contiguous segments and distribute the segments between the two of them.
+of contiguous segments and distributing the segments between the two of them.
+However, they want to make as few cuts as possible when splitting the necklace.
+Cut the necklace in a way that ensures fairness with the least number of cuts.
+Try to solve this problem for N thieves and M types of jewels.
 
-Here is an example with four jewel types denoted 🔵, 🟢, 💎, and 🔴
-(for sapphire, emerald, diamond, and ruby, respectively).
-Let's say the necklace is as follows:
-
-```
-~🔵~🔵~🔵~🟢~🔵~💎~🟢~🔴~🔵~🔴~🟢~🔵~🔵~🔵~💎~🔴~🟢~🟢~🔴~🟢~💎~🟢~🔴~🔴~💎~🟢~🟢~🟢~
-```
-
-There are 8 sapphires, 10 emeralds, 4 diamonds, and 6 rubies.
-We can split the necklace as follows:
+Examples:
 
 ```
-[~🔵~, ~🔵~, ~🔵~🟢~🔵~💎~🟢~🔴~🔵~, ~🔴~🟢~🔵~🔵~🔵~💎~🔴~🟢~🟢~🔴~🟢~💎~🟢~, ~🔴~🔴~💎~🟢~🟢~🟢~]
+Initial condition: ~⚪~🟡~🔴~🔴~🔴~⚪~🔴~🟡~
+Solution: [~⚪~🟡~🔴~🔴~, ~🔴~⚪~🔴~🟡~]
+Minimum number of cuts: 1
 ```
 
-Then if we give the first, third, and fifth segments to one thief
-and the second and fourth segments to the other thief,
-each will end up with 4 sapphires, 5 emeralds, 2 diamonds, and 3 rubies:
-
 ```
-~🔵~    ~🔵~🟢~🔵~💎~🟢~🔴~🔵]~                                     ~🔴~🔴~💎~🟢~🟢~🟢~
-    ~🔵~                     ~🔴~🟢~🔵~🔵~🔵~💎~🔴~🟢~🟢~🔴~🟢~💎~🟢]~
+Initial condition: ~⚫~🟣~🟡~🟡~⚫~🟣~🟤~🟢~🟤~🟢~
+Solution: [~⚫~🟣~🟡~, ~🟡~⚫~🟣~🟤~🟢~, ~🟤~🟢~]
+Minimum number of cuts: 2
 ```
 
-Using 0-indexing, these cuts occur at the indices [1,2,9,22].
+```
+Initial condition: ~⚪~🔵~🟣~🟣~⚪~⚫~⚫~⚪~⚪~🔵~
+Solution: [~⚪~🔵~, ~🟣~, ~🟣~⚪~⚫~, ~⚫~⚪~⚪~🔵~]
+Minimum number of cuts: 3
+```
+
+```
+Initial condition: ~🔵~🟠~🔵~🟢~⚪~🟢~🟢~🟢~⚫~🟠~⚫~⚪~
+Solution: [~🔵~, ~🟠~🔵~🟢~⚪~, ~🟢~🟢~, ~🟢~⚫~, ~🟠~⚫~⚪~]
+Minimum number of cuts: 4
+```
+
+```
+Initial condition: ~🟤~🔴~🔵~🔴~🔵~🔵~🔵~🟤~🟠~🟠~🟡~🟡~
+Solution: [~🟤~, ~🔴~, ~🔵~🔴~🔵~, ~🔵~🔵~🟤~🟠~, ~🟠~🟡~, ~🟡~]
+Minimum number of cuts: 5
+```
 """
 
 from collections import Counter
