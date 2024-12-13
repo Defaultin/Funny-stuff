@@ -1,11 +1,11 @@
 """
 Two thieves have stolen a valuable necklace consisting of several
-different types of jewels. There are an even number of each type of jewel
-and the thieves wish to split each jewel type evenly amongst the two of them.
+different types of jewels. There is an even number of each type of jewel,
+and the thieves wish to split each type evenly between them.
 The catch is that they must do so by splitting the necklace into some number
 of contiguous segments and distributing the segments between the two of them.
 However, they want to make as few cuts as possible when splitting the necklace.
-Cut the necklace in a way that ensures fairness with the least number of cuts.
+Cut the necklace to ensure fairness with the least number of cuts.
 Try to solve this problem for N thieves and M types of jewels.
 
 Examples:
