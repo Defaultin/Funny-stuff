@@ -34,7 +34,7 @@ Minimum number of cuts: 5
 from collections import Counter
 from enum import Enum
 from itertools import combinations
-from random import randint, shuffle
+from random import shuffle
 from typing import Generator
 
 
