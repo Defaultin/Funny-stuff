@@ -11,32 +11,22 @@ Try to solve this problem for N thieves and M types of jewels.
 Examples:
 
 ```
+Thieves: 2
+Jewels types: 3
 Initial condition: ~⚪~🟡~🔴~🔴~🔴~⚪~🔴~🟡~
-Solution: [~⚪~🟡~🔴~🔴~, ~🔴~⚪~🔴~🟡~]
+Solution: [~⚪~🟡~🔴~🔴~, ~🔴~⚪~🔴~🟡~] -> [1st thieve, 2nd thieve]
 Minimum number of cuts: 1
-```
 
-```
-Initial condition: ~⚫~🟣~🟡~🟡~⚫~🟣~🟤~🟢~🟤~🟢~
-Solution: [~⚫~🟣~🟡~, ~🟡~⚫~🟣~🟤~🟢~, ~🟤~🟢~]
+Thieves: 2
+Jewels types: 6
+Initial condition: ~💎~⚪~🟡~⚫~🟤~⚫~🟤~🟡~🟤~⚪~🟤~💎~⚪~🔴~⚪~🟤~🟤~🔴~
+Solution: [~💎~⚪~🟡~⚫~🟤~, ~⚫~🟤~🟡~🟤~⚪~🟤~💎~⚪~🔴~, ~⚪~🟤~🟤~🔴~] -> [1st thieve, 2nd thieve, 1st thieve]
 Minimum number of cuts: 2
-```
 
-```
-Initial condition: ~⚪~🔵~🟣~🟣~⚪~⚫~⚫~⚪~⚪~🔵~
-Solution: [~⚪~🔵~, ~🟣~, ~🟣~⚪~⚫~, ~⚫~⚪~⚪~🔵~]
-Minimum number of cuts: 3
-```
-
-```
-Initial condition: ~🔵~🟠~🔵~🟢~⚪~🟢~🟢~🟢~⚫~🟠~⚫~⚪~
-Solution: [~🔵~, ~🟠~🔵~🟢~⚪~, ~🟢~🟢~, ~🟢~⚫~, ~🟠~⚫~⚪~]
-Minimum number of cuts: 4
-```
-
-```
-Initial condition: ~🟤~🔴~🔵~🔴~🔵~🔵~🔵~🟤~🟠~🟠~🟡~🟡~
-Solution: [~🟤~, ~🔴~, ~🔵~🔴~🔵~, ~🔵~🔵~🟤~🟠~, ~🟠~🟡~, ~🟡~]
+Thieves: 3
+Jewels types: 5
+Initial condition: ~⚪~🔴~💎~⚪~⚪~💎~⚪~🟡~⚪~⚫~⚫~⚪~🟡~🔴~💎~🔴~⚫~🟡~
+Solution: [~⚪~🔴~💎~, ~⚪~, ~⚪~💎~⚪~, ~🟡~⚪~⚫~, ~⚫~⚪~🟡~🔴~💎~, ~🔴~⚫~🟡~] -> [1st thieve, 2nd thieve, 3rd thieve, 1st thieve, 2nd thieve, 3rd thieve]
 Minimum number of cuts: 5
 ```
 """
