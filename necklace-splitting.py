@@ -14,19 +14,19 @@ Examples:
 Thieves: 2
 Jewels types: 3
 Initial condition: ~⚪~🟡~🔴~🔴~🔴~⚪~🔴~🟡~
-Solution: [~⚪~🟡~🔴~🔴~, ~🔴~⚪~🔴~🟡~] -> [1st thieve, 2nd thieve]
+Solution: [~⚪~🟡~🔴~🔴~, ~🔴~⚪~🔴~🟡~]
 Minimum number of cuts: 1
 
 Thieves: 2
 Jewels types: 6
 Initial condition: ~💎~⚪~🟡~⚫~🟤~⚫~🟤~🟡~🟤~⚪~🟤~💎~⚪~🔴~⚪~🟤~🟤~🔴~
-Solution: [~💎~⚪~🟡~⚫~🟤~, ~⚫~🟤~🟡~🟤~⚪~🟤~💎~⚪~🔴~, ~⚪~🟤~🟤~🔴~] -> [1st thieve, 2nd thieve, 1st thieve]
+Solution: [~💎~⚪~🟡~⚫~🟤~, ~⚫~🟤~🟡~🟤~⚪~🟤~💎~⚪~🔴~, ~⚪~🟤~🟤~🔴~]
 Minimum number of cuts: 2
 
 Thieves: 3
 Jewels types: 5
 Initial condition: ~⚪~🔴~💎~⚪~⚪~💎~⚪~🟡~⚪~⚫~⚫~⚪~🟡~🔴~💎~🔴~⚫~🟡~
-Solution: [~⚪~🔴~💎~, ~⚪~, ~⚪~💎~⚪~, ~🟡~⚪~⚫~, ~⚫~⚪~🟡~🔴~💎~, ~🔴~⚫~🟡~] -> [1st thieve, 2nd thieve, 3rd thieve, 1st thieve, 2nd thieve, 3rd thieve]
+Solution: [~⚪~🔴~💎~, ~⚪~, ~⚪~💎~⚪~, ~🟡~⚪~⚫~, ~⚫~⚪~🟡~🔴~💎~, ~🔴~⚫~🟡~]
 Minimum number of cuts: 5
 ```
 """
