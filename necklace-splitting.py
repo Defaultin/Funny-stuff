@@ -44,7 +44,7 @@ Minimum number of cuts: 5
 from collections import Counter
 from enum import Enum
 from itertools import combinations
-from random import sample, shuffle
+from random import randint, shuffle
 from typing import Generator
 
 
@@ -123,12 +123,17 @@ def minimum_fair_cuts(necklace: Necklace, quantity: int) -> list[Necklace]:
 
 
 def split_necklace() -> None:
-    thieves = 2
-    gems_per_thieve = 6
-    jewels = thieves * sample(gems_per_thieve * list(Jewel), gems_per_thieve)
+    thieves, gems = 2, 6
+    distribution = [2, 2, 2, 2, 4, 6]
+    jewels = [
+        gem for gem, count in zip(list(Jewel)[:gems], distribution)
+        for _ in range(count)
+    ]
     shuffle(jewels)
     necklace = Necklace(jewels)
     result = minimum_fair_cuts(necklace, thieves)
+    print("Thieves:", thieves)
+    print("Jewels types:", gems)
     print("Initial condition:", necklace)
     print("Solution:", result)
     print("Minimum number of cuts:", len(result) - 1)
