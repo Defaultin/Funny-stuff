@@ -30,7 +30,6 @@ def trapping_rain_water(array: list[int]) -> int:
     n = len(array)
     left_max = [0] * n
     right_max = [0] * n
-    trapped_water = 0
 
     left_max[0] = array[0]
     for i in range(1, n):
@@ -40,6 +39,7 @@ def trapping_rain_water(array: list[int]) -> int:
     for i in range(n - 2, -1, -1):
         right_max[i] = max(right_max[i + 1], array[i])
 
+    trapped_water = 0
     for i in range(1, n - 1):
         trapped_water += min(left_max[i], right_max[i]) - array[i]
 
