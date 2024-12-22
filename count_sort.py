@@ -9,19 +9,14 @@ def count_sort(array: list[T]) -> list[T]:
 
     max_val, min_val = max(array), min(array)
     size = max_val - min_val + 1
-
     counts = [0] * size
-    output = [0] * len(array)
+    output = []
 
     for item in array:
         counts[item - min_val] += 1
 
-    for i in range(1, size):
-        counts[i] += counts[i - 1]
-
-    for item in reversed(array):
-        output[counts[item - min_val] - 1] = item
-        counts[item - min_val] -= 1
+    for index in range(size):
+        output.extend([index + min_val] * counts[index])
 
     return output
 
