@@ -19,25 +19,34 @@ Explanation: We cannot trap water as there is no height bound on both sides
 Input: arr[] = {2, 1, 5, 3, 1, 0, 4}
 Output: 9
 Explanation: We trap 0 + 1 + 0 + 1 + 3 + 4 + 0 = 9 units of water.
+
+Input: arr[] = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1}
+Output: 6
+Explanation: We trap 1 + 4 + 1 = 6 units of water.
 """
 
 
 def trapping_rain_water(array: list[int]) -> int:
-    water = 0
-    max_index = 0
-    max_hight = array[0]
+    n = len(array)
+    left_max = [0] * n
+    right_max = [0] * n
+    trapped_water = 0
 
-    for index, height in enumerate(array[1:], start=1):
-        if height > max_hight:
-            water = max_hight * (index - max_index - 1) - water
-            max_hight, max_index = height, index
-        else:
-            water += height
+    left_max[0] = array[0]
+    for i in range(1, n):
+        left_max[i] = max(left_max[i - 1], array[i])
 
-    return water
+    right_max[n - 1] = array[n - 1]
+    for i in range(n - 2, -1, -1):
+        right_max[i] = max(right_max[i + 1], array[i])
+
+    for i in range(1, n - 1):
+        trapped_water += min(left_max[i], right_max[i]) - array[i]
+
+    return trapped_water
 
 
 if __name__ == "__main__":
-    given = [3, 0, 1, 0, 4, 0, 2]
+    given = [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
     result = trapping_rain_water(given)
     print(result)
