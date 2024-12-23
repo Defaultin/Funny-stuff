@@ -41,7 +41,7 @@ def gas_station(gas: list[int], cost: list[int]) -> int:
         return -1
 
     tank = start_station = 0
-    for station in range(start_station, len(gas)):
+    for station in range(len(gas)):
         tank = tank + (gas[station] - cost[station])
 
         if tank < 0:
