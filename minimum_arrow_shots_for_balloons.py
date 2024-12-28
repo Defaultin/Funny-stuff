@@ -34,12 +34,12 @@ def minimum_arrow_shots(points: list[list[int]]) -> int:
     points.sort()
     intersects = [points[0]]
 
-    for x, y in points[1:]:
-        if x <= intersects[-1][1]:
-            intersects[-1][0] = max(x, intersects[-1][0])
-            intersects[-1][1] = min(y, intersects[-1][1])
+    for x_start, x_end in points[1:]:
+        if x_end <= intersects[-1][1]:
+            intersects[-1][0] = max(x_start, intersects[-1][0])
+            intersects[-1][1] = min(x_end, intersects[-1][1])
         else:
-            intersects.append([x, y])
+            intersects.append([x_start, x_end])
 
     return len(intersects)
 
