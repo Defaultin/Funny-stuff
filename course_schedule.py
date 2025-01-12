@@ -7,26 +7,36 @@ indicates that you must take course bi first if you want to take course ai.
 For example, for pair [0, 1], to take course 0 you have to first take course 1.
 Return true if you can finish all courses. Otherwise, return false.
 
+Also return the ordering of courses you should take to finish all courses.
+If there are many valid answers, return any of them.
+If it is impossible to finish all courses, return an empty array.
+
 Examples:
 
 Input: numCourses = 2, prerequisites = [[1,0]]
-Output: true
+Output: [0,1]
 Explanation: There are a total of 2 courses to take.
-To take course 1 you should have finished course 0. So it is possible.
+To take course 1 you should have finished course 0.
+So the correct course order is [0,1].
 
-Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
-Output: false
-Explanation: There are a total of 2 courses to take.
-To take course 1 you should have finished course 0,
-and to take course 0 you should also have finished course 1.
-So it is impossible.
+Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,2,1,3]
+Explanation: There are a total of 4 courses to take.
+To take course 3 you should have finished both courses 1 and 2.
+Both courses 1 and 2 should be taken after you finished course 0.
+So one correct course order is [0,1,2,3].
+Another correct ordering is [0,2,1,3].
+
+Input: numCourses = 1, prerequisites = []
+Output: [0]
 """
 
 
-def can_finish(courses: int, prerequisites: list[list[int]]) -> bool:
+def resolve(courses: int, prereqs: list[list[int]]) -> tuple[bool, list[int]]:
+    order = []
     state = [0] * courses  # 0 = unvisited, 1 = visiting, 2 = visited
     graph = [[] for _ in range(courses)]
-    for a, b in prerequisites:
+    for a, b in prereqs:
         graph[b].append(a)
 
     def dfs(course: int) -> bool:
@@ -42,19 +52,18 @@ def can_finish(courses: int, prerequisites: list[list[int]]) -> bool:
                 return False
 
         state[course] = 2  # visited
+        order.append(course)
         return True
 
     for course in range(courses):
         if state[course] == 0:  # unvisited
             if not dfs(course):
-                return False
+                return False, []
 
-    return True
+    return True, order[::-1]
 
 
 if __name__ == "__main__":
-    print(can_finish(2, [[1, 0]]))
-    print(can_finish(2, [[1, 0], [0, 1]]))
-    print(can_finish(4, [[1, 0], [2, 1], [3, 2], [1, 3]]))
-    print(can_finish(3, [[1, 0], [2, 1], [0, 2]]))
-    print(can_finish(4, [[1, 0], [2, 1], [3, 2]]))
+    print(resolve(2, [[1, 0]]))
+    print(resolve(4, [[1, 0], [2, 0], [3, 1], [3, 2]]))
+    print(resolve(1, []))
