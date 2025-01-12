@@ -1,3 +1,28 @@
+"""
+Given an m x n 2D binary grid representing a map
+of 1s (land) and 0s (water), return the number of islands.
+
+An island is surrounded by water and is formed by connecting
+adjacent lands horizontally or vertically or diagonally.
+
+Examples:
+Input: grid = [
+  [1,1,1,1,0],
+  [1,1,0,1,0],
+  [1,1,0,0,0],
+  [0,0,0,0,0]
+]
+Output: 1
+
+Input: grid = [
+  [1,1,0,0,0],
+  [1,1,0,0,0],
+  [0,0,1,0,0],
+  [0,0,0,1,1]
+]
+Output: 3
+"""
+
 import numpy as np
 
 
